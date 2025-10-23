@@ -1,0 +1,40 @@
+---
+import CustomStepCard from "./custom-step-card.astro";
+---
+
+<section id="how-it-works" class="py-20 px-6 bg-white">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-display font-bold mb-16 text-center">
+      A Clear Path for Every Candidate
+    </h2>
+
+    <div class="relative">
+      <div
+        class="hidden md:block absolute top-1/2 left-0 right-0 h-0.5 bg-[#EAEAEA] transform -translate-y-1/2"
+      >
+      </div>
+      <div class="grid md:grid-cols-4 gap-8 relative">
+        <CustomStepCard
+          number="1"
+          title="Find the Job"
+          description="Candidates discover your posting on familiar job boards"
+        />
+        <CustomStepCard
+          number="2"
+          title="Apply & Upload"
+          description="Basic info, CV, and diplomas are submitted"
+        />
+        <CustomStepCard
+          number="3"
+          title="AI Interview"
+          description="Smart chat asks meaningful, role-specific questions"
+        />
+        <CustomStepCard
+          number="4"
+          title="Evaluation"
+          description="Recruiter dashboard shows strengths & weaknesses"
+        />
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,60 @@
+---
+const {
+  number = "1",
+  title = "Step",
+  description = "Description not provided",
+} = Astro.props;
+---
+
+<div class="step-card">
+  <div class="step-number">{number}</div>
+  <h3 class="step-title">{title}</h3>
+  <p class="step-description">{description}</p>
+</div>
+
+<style>
+  .step-card {
+    background-color: #fdfcf8;
+    border: 1px solid #eaeaea;
+    border-radius: 16px;
+    padding: 1.5rem;
+    position: relative;
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+
+  .step-number {
+    width: 48px;
+    height: 48px;
+    background-color: #ffb100;
+    color: #1b1b1b;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin: 0 auto 1rem auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .step-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #1b1b1b;
+  }
+
+  .step-description {
+    color: #666666;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  @media (min-width: 768px) {
+    .step-card:first-child::before {
+      display: none;
+    }
+  }
+</style>

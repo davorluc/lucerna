@@ -1,0 +1,71 @@
+---
+import CustomFeatureCard from "./CustomFeatureCard.astro";
+---
+
+<section id="benefits" class="py-20 px-6 bg-white">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-display font-bold mb-16 text-center">
+      Why Lucerna
+    </h2>
+
+    <div class="grid md:grid-cols-2 gap-12">
+      <div>
+        <h3 class="text-xl font-display font-bold mb-6 flex items-center">
+          <i data-feather="briefcase" class="text-[#FFB100] mr-3"></i>
+          For Companies
+        </h3>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <CustomFeatureCard
+            icon="clock"
+            title="Save Time"
+            description="Reduce screening hours with AI-powered evaluation"
+          />
+          <CustomFeatureCard
+            icon="search"
+            title="Identify Real Talent"
+            description="Go beyond keywords to understand candidate potential"
+          />
+          <CustomFeatureCard
+            icon="shield"
+            title="Reduce Bias"
+            description="Structured evaluation minimizes unconscious bias"
+          />
+          <CustomFeatureCard
+            icon="settings"
+            title="Customize AI Interviews"
+            description="Tailor questions to your specific role requirements"
+          />
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-xl font-display font-bold mb-6 flex items-center">
+          <i data-feather="user" class="text-[#FFB100] mr-3"></i>
+          For Candidates
+        </h3>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <CustomFeatureCard
+            icon="eye"
+            title="Be Seen for True Potential"
+            description="Showcase your skills beyond just your resume"
+          />
+          <CustomFeatureCard
+            icon="star"
+            title="Focus on Skills, Not Keywords"
+            description="Demonstrate your abilities through meaningful questions"
+          />
+          <CustomFeatureCard
+            icon="thumbs-up"
+            title="Fair Evaluation"
+            description="Be assessed based on your actual qualifications"
+          />
+          <CustomFeatureCard
+            icon="message-square"
+            title="Engaging Experience"
+            description="Conversational AI makes applying more natural"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

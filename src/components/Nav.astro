@@ -1,0 +1,99 @@
+<nav>
+  <a href="#hero" class="logo">
+    <i data-feather="sun" class="logo-icon"></i>
+    Lucerna
+  </a>
+  <ul>
+    <li><a href="#what-we-do">What We Do</a></li>
+    <li><a href="#how-it-works">How It Works</a></li>
+    <li><a href="#benefits">Benefits</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#waitlist" class="cta">Join Waitlist</a></li>
+  </ul>
+</nav>
+
+<style>
+  nav {
+    background: transparent;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    transition: background-color 0.3s ease;
+  }
+
+  nav.scrolled {
+    background-color: #fdfcf8;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .logo {
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #1b1b1b;
+    display: flex;
+    align-items: center;
+  }
+
+  .logo-icon {
+    color: #ffb100;
+    margin-right: 0.5rem;
+  }
+
+  ul {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    color: #1b1b1b;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.2s;
+  }
+
+  a:hover {
+    color: #ffb100;
+  }
+
+  .cta {
+    background-color: #ffb100;
+    color: #1b1b1b;
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    transition: background-color 0.2s;
+  }
+
+  .cta:hover {
+    background-color: #e6a000;
+    color: #1b1b1b;
+  }
+
+  @media (max-width: 768px) {
+    ul {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  let nav = document.querySelector("nav");
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 50) {
+      nav.classList.add("scrolled");
+    } else {
+      nav.classList.remove("scrolled");
+    }
+  });
+</script>
