@@ -1,8 +1,21 @@
+---
+import waves from "../assets/svg/Intersecting Waves Divider.svg";
+import { Image } from "astro:assets";
+---
+
 <section
   id="hero"
-  class="min-h-screen flex flex-col justify-center items-center px-6"
+  class="min-h-screen relative flex flex-col justify-center items-center px-6"
 >
-  <div class="max-w-4xl mx-auto text-center">
+  <div class="glass absolute top-0 h-full w-full z-1">
+
+  </div>
+  <div class="absolute top-0 h-[25%] w-full">
+    <div class="bg-[#1e90ff] h-full w-full"></div>
+    <img src={waves.src} alt="" class="w-full h-full" />
+  </div>
+
+  <div class="max-w-4xl mx-auto text-center z-3">
     <h1 class="text-5xl md:text-6xl font-display font-bold mb-6">
       Illuminate Your Hiring Decisions
     </h1>
@@ -13,15 +26,24 @@
     <div class="flex flex-col sm:flex-row justify-center gap-4">
       <a
         href="#waitlist"
-        class="bg-[#FFB100] hover:bg-[#E6A000] text-[#1B1B1B] font-medium py-3 px-8 rounded-full transition duration-300"
+        class="bg-[#1A2A4F] leading-[1.2] hover:bg-[#1e90ff] text-[#EAEAEA] font-medium py-3 px-8 rounded-full transition duration-300"
         >Join the Waitlist</a
       >
       <a
         href="#how-it-works"
-        class="border-2 border-[#1B1B1B] hover:bg-[#EAEAEA] font-medium py-3 px-8 rounded-full transition duration-300"
+        class="border-2 border-[#1B1B1B] leading-[1.0] hover:bg-[#EAEAEA] font-medium py-3 px-8 rounded-full transition duration-300"
         >Learn how it works</a
       >
     </div>
     <p class="mt-16 text-[#666666]">From St. Gallen, Switzerland</p>
   </div>
 </section>
+
+<style>
+  .glass {
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(11.8px);
+    -webkit-backdrop-filter: blur(11.8px);
+  }
+</style>
