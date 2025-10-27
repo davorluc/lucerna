@@ -14,14 +14,28 @@ import Footer from "../components/Footer.astro";
       content="Lucerna is a Swiss AI recruiting startup that brings clarity to hiring — illuminating talent with precision and fairness."
     />
     <link rel="stylesheet" href="style.css" />
-    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/feather-icons"></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"
     ></script>
   </head>
   <body>
-    <Nav />
-    <slot />
-    <Footer />
+    <div id="smooth-wrapper">
+      <div id="smooth-content">
+        <Nav />
+        <slot />
+        <Footer />
+      </div>
+    </div>
   </body>
 </html>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { ScrollSmoother } from "gsap/ScrollSmoother";
+  gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+  ScrollSmoother.create({
+    smooth: 1,
+    effects: true,
+  });
+</script>
