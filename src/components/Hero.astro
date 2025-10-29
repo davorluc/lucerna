@@ -1,25 +1,22 @@
 ---
 import waves from "../assets/svg/Intersecting Waves Divider.svg";
-import { Image } from "astro:assets";
+import Background from "./Background.astro";
 ---
 
 <section
   id="hero"
   class="min-h-screen relative flex flex-col justify-center items-center px-6"
 >
-  <div class="glass absolute top-0 h-full w-full z-1">
-
-  </div>
-  <div class="absolute top-0 h-[25%] w-full">
-    <div class="bg-[#1e90ff] h-full w-full"></div>
-    <img src={waves.src} alt="" class="w-full h-full" />
+  <div class="glass absolute top-0 h-full w-full z-1"></div>
+  <div class="absolute top-0 h-full w-full">
+    <Background isRotate={false} mouseInteraction={false} pixelFilter={700} />
   </div>
 
   <div class="max-w-4xl mx-auto text-center z-3">
-    <h1 class="text-5xl md:text-6xl font-display font-bold mb-6">
+    <h1 class="text-5xl md:text-6xl font-display text-white font-bold mb-6">
       Illuminate Your Hiring Decisions
     </h1>
-    <p class="text-xl md:text-2xl mb-10 max-w-2xl mx-auto">
+    <p class="text-xl md:text-2xl mb-10 max-w-2xl mx-auto text-white">
       Lucerna combines AI insight with Swiss precision to make recruiting
       smarter, fairer, and faster.
     </p>
@@ -35,7 +32,7 @@ import { Image } from "astro:assets";
         >Learn how it works</a
       >
     </div>
-    <p class="mt-16 text-[#666666]">From St. Gallen, Switzerland</p>
+    <p class="mt-16 text-white">From St. Gallen, Switzerland</p>
   </div>
 </section>
 
