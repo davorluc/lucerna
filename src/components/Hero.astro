@@ -5,9 +5,11 @@ import InfiniteScroll from "./InfiniteScroll.astro";
 
 <section
   id="hero"
-  class="min-h-screen relative flex flex-col overflow-hidden bg-[#FCF9EA] justify-center items-start px-30"
+  class="min-h-screen relative flex flex-col overflow-hidden bg-[#FCF9EA] justify-start md:justify-center items-start py-50 px-10 md:p-30"
 >
-  <div class="absolute right-[25%] top-[50%] w-[50%] h-full overflow-visible">
+  <div
+    class="absolute md:right-[25%] md:top-[50%] w-full md:w-[50%] h-full overflow-visible"
+  >
     <InfiniteScroll
       client:load
       isTilted={true}
@@ -61,16 +63,18 @@ import InfiniteScroll from "./InfiniteScroll.astro";
     <div class="flex flex-col sm:flex-row justify-start gap-4">
       <a
         href="#waitlist"
-        class="bg-[#2c2e37] leading-[1.2] hover:bg-[#FBF3D1] text-[#eaeaea] hover:text-[#252525] font-medium py-3 px-8 rounded-full transition duration-300"
+        class="bg-[#2c2e37] leading-[1.2] hover:bg-[#FBF3D1] text-[#eaeaea] hover:text-[#252525] font-medium py-3 px-8 rounded-full transition duration-300 border-2 border-[#00000000] hover:border-2 hover:border-[#252525] text-center"
         >Join the Waitlist</a
       >
       <a
         href="#how-it-works"
-        class="leading-[1.2] bg-[#FCF9EA] text-[#252525] hover:bg-[#FBF3D1] hover:text-[#252525] font-medium py-3 px-8 rounded-full transition duration-300"
+        class="leading-[1.2] bg-[#FCF9EA00] text-[#252525] hover:bg-[#FBF3D1] hover:text-[#252525] hover:border-2 hover:border-[#252525] border-2 border-[#00000000] font-medium py-3 px-8 rounded-full transition duration-300 text-center"
         >Learn how it works</a
       >
     </div>
-    <p class="mt-16 text-[#252525]">From St. Gallen, Switzerland</p>
+    <p class="mt-16 text-[#252525] text-center md:text-left">
+      From St. Gallen, Switzerland
+    </p>
   </div>
 </section>
 
