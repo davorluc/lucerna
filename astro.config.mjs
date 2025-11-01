@@ -4,5 +4,8 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://astro.build/config
 export default defineConfig({
-  vite: { plugins: [tailwindcss()], optimizeDeps: { include: ["ogl"] } },
+  vite: {
+    plugins: [tailwindcss()],
+    optimizeDeps: { include: ["ogl", "gsap", "gsap/Observer"] },
+  },
 });

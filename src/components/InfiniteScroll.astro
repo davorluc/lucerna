@@ -1,0 +1,169 @@
+---
+import { gsap } from "gsap";
+import { Observer } from "gsap/Observer";
+gsap.registerPlugin(Observer);
+
+interface Props {
+  width?: string;
+  maxHeight?: string;
+  negativeMargin?: string;
+  items?: string[];
+  itemMinHeight?: number;
+  isTilted?: boolean;
+  tiltDirection?: 'left' | 'right';
+  autoplay?: boolean;
+  autoplaySpeed?: number;
+  autoplayDirection?: 'down' | 'up';
+  pauseOnHover?: boolean;
+  class?: string;
+  id?: string;
+}
+
+const {
+  width = '30rem',
+  maxHeight = '100%',
+  negativeMargin = '-0.5em',
+  items = undefined,
+  itemMinHeight = 150,
+  isTilted = false,
+  tiltDirection = 'right',
+  autoplay = true,
+  autoplaySpeed = 0.5,
+  autoplayDirection = 'up',
+  pauseOnHover = false,
+  class: className = 'w-full h-full',
+  id: passedId,
+} = Astro.props;
+
+const elId = passedId ?? `infscroll-${Math.random().toString(36).slice(2)}`;
+const tiltTransform = !isTilted
+  ? 'none'
+  : tiltDirection === 'left'
+    ? 'rotateX(20deg) rotateZ(-20deg) skewX(20deg)'
+    : 'rotateX(20deg) rotateZ(20deg) skewX(-20deg)';
+---
+
+<div
+  id={elId}
+  class={`relative flex items-center justify-center overflow-hidden overscroll-none border-t-2 border-b-2 border-t-dotted border-b-dotted border-transparent ${className}`}
+  style={`max-height:${maxHeight};`}
+>
+
+  <div
+    data-container
+    class="flex flex-col overscroll-contain px-4 cursor-grab origin-center"
+    style={`width:${width}; transform:${tiltTransform};`}
+  >
+    {
+      items
+        ? items.map((html, i) => (
+            <div
+              data-item
+              class="flex items-center justify-center p-4 text-xl font-semibold text-center border-2 border-white rounded-[15px] select-none box-border relative"
+              style={`height:${itemMinHeight}px; margin-top:${negativeMargin};`}
+              {key=i}
+              set:html={html}
+            />
+          ))
+        : <slot />
+    }
+  </div>
+</div>
+
+<script
+  type="module"
+  define:vars={{
+    elId,
+    autoplay,
+    autoplaySpeed,
+    autoplayDirection,
+    pauseOnHover
+  }}
+>
+  (async () => {
+    // 1️⃣ Try local GSAP; fallback to CDN
+    let gsap, Observer;
+    try {
+      ({ gsap } = await import("gsap"));
+      ({ Observer } = await import("gsap/Observer"));
+    } catch (err) {
+      console.warn('Vite did not rewrite "gsap". Falling back to CDN.', err);
+      ({ gsap } = await import("https://esm.sh/gsap@3.12.5"));
+      ({ Observer } = await import("https://esm.sh/gsap@3.12.5/Observer"));
+    }
+
+    gsap.registerPlugin(Observer);
+
+    const root = document.getElementById(elId);
+    if (!root) return;
+
+    const container = root.querySelector("[data-container]");
+    if (!container) return;
+
+    const children = Array.from(container.children);
+    if (!children.length) return;
+
+    const firstItem = children[0];
+    const style = getComputedStyle(firstItem);
+    const itemHeight = firstItem.offsetHeight;
+    const marginTop = parseFloat(style.marginTop) || 0;
+    const totalItemHeight = itemHeight + marginTop;
+    const totalHeight = itemHeight * children.length + marginTop * (children.length - 1);
+    const wrapFn = gsap.utils.wrap(-totalHeight, totalHeight);
+
+    children.forEach((c, i) => gsap.set(c, { y: i * totalItemHeight }));
+
+    /*
+    const observer = Observer.create({
+      target: container,
+      type: "wheel,touch,pointer",
+      preventDefault: true,
+      onPress: ({ target }) => (target.style.cursor = "grabbing"),
+      onRelease: ({ target }) => (target.style.cursor = "grab"),
+      onChange: ({ deltaY, isDragging, event }) => {
+        const d = event.type === "wheel" ? -deltaY : deltaY;
+        const distance = isDragging ? d * 5 : d * 10;
+        children.forEach(child => {
+          gsap.to(child, {
+            duration: 0.5,
+            ease: "expo.out",
+            y: `+=${distance}`,
+            modifiers: { y: gsap.utils.unitize(wrapFn) }
+          });
+        });
+      }
+    });
+    */
+
+    // autoplay
+    let raf;
+    if (autoplay) {
+      const dir = autoplayDirection === "down" ? 1 : -1;
+      const speed = autoplaySpeed * dir;
+      const tick = () => {
+        children.forEach(c => {
+          gsap.set(c, { y: `+=${speed}`, modifiers: { y: gsap.utils.unitize(wrapFn) } });
+        });
+        raf = requestAnimationFrame(tick);
+      };
+      const start = () => !raf && (raf = requestAnimationFrame(tick));
+      const stop = () => raf && (cancelAnimationFrame(raf), (raf = null));
+      start();
+      if (pauseOnHover) {
+        container.addEventListener("mouseenter", stop);
+        container.addEventListener("mouseleave", start);
+      }
+      document.addEventListener("visibilitychange", () => {
+        document.hidden ? stop() : start();
+      });
+    }
+
+    const cleanup = () => {
+      observer.kill();
+      if (raf) cancelAnimationFrame(raf);
+    };
+    document.addEventListener("astro:before-swap", cleanup);
+    window.addEventListener("pagehide", cleanup);
+    window.addEventListener("beforeunload", cleanup);
+  })();
+</script>
