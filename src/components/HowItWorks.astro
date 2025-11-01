@@ -1,40 +1,124 @@
 ---
 import CustomStepCard from "./custom-step-card.astro";
+import CardSwap from "./CardSwap.astro";
 ---
 
-<section id="how-it-works" class="py-20 px-6 bg-white">
-  <div class="max-w-6xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-display font-bold mb-16 text-center">
-      A Clear Path for Every Candidate
-    </h2>
+<section
+  id="how-it-works"
+  class="py-50 flex flex-row relative overflow-hidden px-6 bg-[#FCF9EA]"
+>
+  <div class="max-w-6xl w-full mx-auto flex flex-col md:flex-row gap-15">
+    <div class="w-full md:w-full">
+      <div class="relative w-full flex flex-col gap-6 md:pr-12">
+        <h2
+          class="text-3xl md:text-4xl font-display font-bold mb-4 md:text-left"
+        >
+          A Clear Path for Every Candidate
+        </h2>
 
-    <div class="relative">
-      <div
-        class="hidden md:block absolute top-1/2 left-0 right-0 h-0.5 bg-[#EAEAEA] transform -translate-y-1/2"
+        <p class="text-lg text-[#4B5563] leading-relaxed md:max-w-xl">
+          Every applicant moves through a structured, fair and engaging hiring
+          experience — designed to surface real talent, not just polished CVs.
+          From discovery to evaluation, each step is guided, streamlined, and
+          AI-supported.
+        </p>
+
+        <ul class="space-y-4 text-[#2c2e37] md:max-w-lg mt-4">
+          <li class="flex gap-3">
+            <span class="text-[#2c2e37] font-semibold">•</span>
+            Discover open roles through familiar job boards & channels
+          </li>
+          <li class="flex gap-3">
+            <span class="text-[#2c2e37] font-semibold">•</span>
+            Apply in minutes with essential details & verified documents
+          </li>
+          <li class="flex gap-3">
+            <span class="text-[#2c2e37] font-semibold">•</span>
+            Engage in a tailored AI-powered interview — anytime, anywhere
+          </li>
+          <li class="flex gap-3">
+            <span class="text-[#2c2e37] font-semibold">•</span>
+            Receive transparent, skills-based evaluation to support decisions
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="w-full h-140 md:h-full static">
+      <CardSwap
+        pauseOnHover={true}
+        verticalDistance={70}
+        cardDistance={60}
+        height={600}
+        class="absolute w-full md:w-[50%] bottom-0 right-[-20px] md:right-0"
       >
-      </div>
-      <div class="grid md:grid-cols-4 gap-8 relative">
-        <CustomStepCard
-          number="1"
-          title="Find the Job"
-          description="Candidates discover your posting on familiar job boards"
-        />
-        <CustomStepCard
-          number="2"
-          title="Apply & Upload"
-          description="Basic info, CV, and diplomas are submitted"
-        />
-        <CustomStepCard
-          number="3"
-          title="AI Interview"
-          description="Smart chat asks meaningful, role-specific questions"
-        />
-        <CustomStepCard
-          number="4"
-          title="Evaluation"
-          description="Recruiter dashboard shows strengths & weaknesses"
-        />
-      </div>
+        <!-- STEP 1 -->
+        <div
+          class="bg-[#2c2e37] flex-col border border-white text-white flex items-center justify-center text-xl rounded-xl"
+        >
+          <div
+            class="h-[10%] flex flex-row justify-start w-full border-white border-b-2 p-6 items-center"
+          >
+            <p class="text-3xl font-semibold">1</p>
+          </div>
+          <div
+            class="h-[90%] flex items-center justify-center flex-col py-6 px-16 text-center"
+          >
+            <h3 class="text-3xl md:text-4xl mb-2">Find the Job</h3>
+            <p>Candidates discover your posting on familiar job boards</p>
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div
+          class="bg-[#2c2e37] flex-col border border-white text-white flex items-center justify-center text-xl rounded-xl"
+        >
+          <div
+            class="h-[10%] flex flex-row justify-start w-full border-white border-b-2 p-6 items-center"
+          >
+            <p class="text-3xl font-semibold">2</p>
+          </div>
+          <div
+            class="h-[90%] flex items-center justify-center flex-col py-6 px-16 text-center"
+          >
+            <h3 class="text-3xl md:text-4xl mb-2">Apply & Upload</h3>
+            <p>Basic info, CV, and diplomas are submitted</p>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div
+          class="bg-[#2c2e37] flex-col border border-white text-white flex items-center justify-center text-xl rounded-xl"
+        >
+          <div
+            class="h-[10%] flex flex-row justify-start w-full border-white border-b-2 p-6 items-center"
+          >
+            <p class="text-3xl font-semibold">3</p>
+          </div>
+          <div
+            class="h-[90%] flex items-center justify-center flex-col py-6 px-16 text-center"
+          >
+            <h3 class="text-3xl md:text-4xl mb-2">AI Interview</h3>
+            <p>Smart chat asks meaningful, role-specific questions</p>
+          </div>
+        </div>
+
+        <!-- STEP 4 -->
+        <div
+          class="bg-[#2c2e37] flex-col border border-white text-white flex items-center justify-center text-xl rounded-xl"
+        >
+          <div
+            class="h-[10%] flex flex-row justify-start w-full border-white border-b-2 p-6 items-center"
+          >
+            <p class="text-3xl font-semibold">4</p>
+          </div>
+          <div
+            class="h-[90%] flex items-center justify-center flex-col py-6 px-16 text-center"
+          >
+            <h3 class="text-3xl md:text-4xl mb-2">Evaluation</h3>
+            <p>Recruiter dashboard shows strengths & weaknesses</p>
+          </div>
+        </div>
+      </CardSwap>
     </div>
   </div>
 </section>

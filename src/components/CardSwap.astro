@@ -1,0 +1,171 @@
+---
+import { gsap } from "gsap";
+
+interface Props {
+  width?: number;
+  height?: number;
+  cardDistance?: number;
+  verticalDistance?: number;
+  delay?: number;
+  pauseOnHover?: boolean;
+  skewAmount?: number;
+  easing?: "elastic" | "power";
+  class?: string;
+  id?: string;
+}
+
+const {
+  width = 500,
+  height = 400,
+  cardDistance = 60,
+  verticalDistance = 70,
+  delay = 5000,
+  pauseOnHover = false,
+  skewAmount = 6,
+  easing = "elastic",
+  class: className = "",
+  id: passedId,
+} = Astro.props;
+
+const elId = passedId ?? `cardswap-${Math.random().toString(36).slice(2)}`;
+---
+
+<div
+  id={elId}
+  class={`perspective-[900px] ${className}`}
+  style={`width:${width}; height:${height}px;`}
+>
+  <slot />
+</div>
+
+<script
+  type="module"
+  define:vars={{
+    elId,
+    width,
+    height,
+    cardDistance,
+    verticalDistance,
+    delay,
+    pauseOnHover,
+    skewAmount,
+    easing,
+  }}
+>
+  (async () => {
+    let gsap;
+    try {
+      ({ gsap } = await import("gsap"));
+    } catch {
+      ({ gsap } = await import("https://esm.sh/gsap"));
+    }
+
+    const container = document.getElementById(elId);
+    if (!container) return;
+
+    const cards = Array.from(container.children);
+    if (!cards.length) return;
+
+    // Set initial positions
+    const makeSlot = (i, distX, distY, total) => ({
+      x: i * distX,
+      y: -i * distY,
+      z: -i * distX * 1.5,
+      zIndex: total - i,
+    });
+
+    cards.forEach((card, i) => {
+      const slot = makeSlot(i, cardDistance, verticalDistance, cards.length);
+      gsap.set(card, {
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        width: `100%`,
+        height: `100%`,
+        borderRadius: "12px",
+        transformStyle: "preserve-3d",
+        backfaceVisibility: "hidden",
+        xPercent: -50,
+        yPercent: -50,
+        x: slot.x,
+        y: slot.y,
+        z: slot.z,
+        skewY: skewAmount,
+        zIndex: slot.zIndex,
+      });
+    });
+
+    let order = cards.map((_, i) => i);
+    let interval;
+
+    const config =
+      easing === "elastic"
+        ? { ease: "elastic.out(0.2,0.2)", dur: 1.5 }
+        : { ease: "power1.inOut", dur: 0.8 };
+
+    const swap = () => {
+      const [front, ...rest] = order;
+      const elFront = cards[front];
+
+      const tl = gsap.timeline();
+      tl.to(elFront, {
+        y: "+=500",
+        duration: config.dur,
+        ease: config.ease,
+      });
+
+      rest.forEach((idx, i) => {
+        const el = cards[idx];
+        const slot = makeSlot(i, cardDistance, verticalDistance, cards.length);
+        tl.to(
+          el,
+          {
+            x: slot.x,
+            y: slot.y,
+            z: slot.z,
+            duration: config.dur,
+            ease: config.ease,
+          },
+          "-=1.4",
+        );
+        tl.set(el, { zIndex: slot.zIndex }, "<");
+      });
+
+      const backSlot = makeSlot(
+        cards.length - 1,
+        cardDistance,
+        verticalDistance,
+        cards.length,
+      );
+      tl.to(
+        elFront,
+        {
+          x: backSlot.x,
+          y: backSlot.y,
+          z: backSlot.z,
+          duration: config.dur,
+          ease: config.ease,
+          onComplete: () => (order = [...rest, front]),
+        },
+        "-=1.4",
+      );
+      tl.set(elFront, { zIndex: backSlot.zIndex }, "<");
+    };
+
+    swap();
+    interval = setInterval(swap, delay);
+
+    if (pauseOnHover) {
+      container.addEventListener("mouseenter", () => {
+        clearInterval(interval);
+      });
+      container.addEventListener("mouseleave", () => {
+        interval = setInterval(swap, delay);
+      });
+    }
+
+    document.addEventListener("astro:before-swap", () =>
+      clearInterval(interval),
+    );
+  })();
+</script>
