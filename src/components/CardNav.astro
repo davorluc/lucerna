@@ -1,0 +1,220 @@
+---
+import { gsap } from "gsap";
+import GoArrowUpRight from "../assets/svg/arrowUpRight.svg";
+import { Image } from "astro:assets";
+
+interface LinkItem {
+  label: string;
+  href?: string;
+  ariaLabel?: string;
+}
+
+interface NavCard {
+  label: string;
+  bgColor: string;
+  textColor: string;
+  links?: LinkItem[];
+}
+
+interface Props {
+  logo: string;
+  logoAlt?: string;
+  items: NavCard[];
+  baseColor?: string;
+  menuColor?: string;
+  buttonBgColor?: string;
+  buttonTextColor?: string;
+  ease?: string;
+  class?: string;
+}
+
+const {
+  logo,
+  logoAlt = "Logo",
+  items,
+  class: className = "",
+  ease = "power3.out",
+  baseColor = "#2c2e37",
+  menuColor = "#eaeaea",
+  buttonBgColor = "#111",
+  buttonTextColor = "#fff",
+} = Astro.props;
+---
+
+<div
+  class={`card-nav-container absolute left-1/2 -translate-x-1/2 w-[90%] max-w-[800px] z-[99] top-[1.2em] md:top-[2em] ${className}`}
+>
+  <nav
+    id="cardNav"
+    class="card-nav block h-auto md:h-[60px] p-0 rounded-xl shadow-md relative overflow-hidden will-change-[height]"
+    style={`background-color:${baseColor}`}
+  >
+    <div
+      class="card-nav-top absolute inset-x-0 top-0 h-[60px] flex items-center justify-between p-2 pl-[1.1rem] z-[2]"
+    >
+      <!-- Hamburger -->
+      <div
+        class="hamburger-menu group h-full flex flex-col items-center justify-center cursor-pointer gap-[6px] order-2 md:order-none text-black"
+        id="menuToggle"
+        style={`color:${menuColor}`}
+      >
+        <div
+          class="hamburger-line w-[30px] h-[2px] bg-current transition-all duration-300 ease-linear [transform-origin:50%_50%]"
+        >
+        </div>
+        <div
+          class="hamburger-line w-[30px] h-[2px] bg-current transition-all duration-300 ease-linear [transform-origin:50%_50%]"
+        >
+        </div>
+      </div>
+
+      <!-- Logo -->
+      <div
+        class="logo-container flex items-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 order-1 md:order-none"
+      >
+        <Image src={logo} alt={logoAlt} class="logo h-12 w-auto" />
+      </div>
+
+      <!-- CTA -->
+      <a
+        type="button"
+        class="card-nav-cta-button hidden md:inline-flex border-0 rounded-[calc(0.75rem-0.2rem)] px-4 items-center h-full font-medium cursor-pointer transition-colors duration-300"
+        style={`background-color:${buttonBgColor}; color:${buttonTextColor}`}
+        href="#waitlist"
+      >
+        Join Waitlist
+      </a>
+    </div>
+
+    <!-- Dropdown content -->
+    <div
+      class="card-nav-content absolute left-0 right-0 md:top-[60px] bottom-0 p-2 flex flex-col items-stretch gap-3 justify-start z-[1] invisible pointer-events-none md:flex-row md:items-end md:gap-[12px]"
+    >
+      {
+        items.map((item, idx) => (
+          <div
+            class="nav-card select-none relative flex flex-col gap-2 p-[12px_16px] rounded-[calc(0.75rem-0.2rem)] min-w-0 flex-[1_1_auto] h-auto min-h-[60px] md:h-full md:min-h-0 md:flex-[1_1_0%] opacity-0 translate-y-[50px]"
+            style={`background-color:${item.bgColor}; color:${item.textColor}`}
+          >
+            <div class="nav-card-label font-normal tracking-[-0.5px] text-[18px] md:text-[22px]">
+              {item.label}
+            </div>
+            <div class="nav-card-links mt-auto flex flex-col gap-[2px]">
+              {item.links?.map((lnk, i) => (
+                <a
+                  class="nav-card-link inline-flex items-center gap-[6px] no-underline cursor-pointer transition-opacity duration-300 hover:opacity-75 text-[15px] md:text-[16px]"
+                  href={lnk.href || "#"}
+                  aria-label={lnk.ariaLabel}
+                >
+                  <GoArrowUpRight
+                    class="h-10 w-10 shrink-0"
+                    aria-hidden="true"
+                  />
+                  {lnk.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </nav>
+</div>
+
+<script type="module" define:vars={{ ease }}>
+  (async () => {
+    let gsap;
+    try {
+      ({ gsap } = await import("gsap"));
+    } catch {
+      ({ gsap } = await import("https://esm.sh/gsap@3.12.5"));
+    }
+
+    const nav = document.getElementById("cardNav");
+    const content = nav.querySelector(".card-nav-content");
+    const menuBtn = document.getElementById("menuToggle");
+    const cards = Array.from(content.querySelectorAll(".nav-card"));
+
+    let isOpen = false;
+
+    const tl = gsap.timeline({ paused: true });
+    gsap.set(nav, { height: 60, overflow: "hidden" });
+
+    tl.to(nav, {
+      height: () => {
+        const contentHeight = content.scrollHeight + 76;
+        return contentHeight;
+      },
+      duration: 0.4,
+      ease,
+    });
+
+    tl.to(
+      cards,
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.4,
+        ease,
+        stagger: 0.08,
+      },
+      "-=0.1",
+    );
+
+    menuBtn.addEventListener("click", () => {
+      if (!isOpen) {
+        menuBtn.classList.add("open");
+        content.classList.remove("invisible", "pointer-events-none");
+        isOpen = true;
+        tl.play(0);
+        gsap.to(menuBtn.children[0], {
+          y: 4,
+          rotate: 45,
+          duration: 0.3,
+        });
+        gsap.to(menuBtn.children[1], {
+          y: -4,
+          rotate: -45,
+          duration: 0.3,
+        });
+      } else {
+        tl.reverse();
+        gsap.to(menuBtn.children, {
+          y: 0,
+          rotate: 0,
+          duration: 0.3,
+        });
+        tl.eventCallback("onReverseComplete", () => {
+          content.classList.add("invisible", "pointer-events-none");
+          menuBtn.classList.remove("open");
+          isOpen = false;
+        });
+      }
+    });
+  })();
+</script>
+
+<style>
+  .hamburger-menu.open .hamburger-line:first-child {
+    transform: translateY(4px) rotate(45deg);
+  }
+  .hamburger-menu.open .hamburger-line:last-child {
+    transform: translateY(-4px) rotate(-45deg);
+  }
+
+  .nav-card {
+    transform-origin: top;
+  }
+
+  @media (min-width: 768px) {
+    .card-nav-content {
+      flex-direction: row;
+      align-items: flex-end;
+      gap: 12px;
+    }
+
+    #cardNav.open {
+      overflow: visible;
+    }
+  }
+</style>
