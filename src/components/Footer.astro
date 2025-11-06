@@ -1,7 +1,16 @@
-<footer>
-  <div class="footer-content">
-    <div class="logo">
-      <i data-feather="sun" class="logo-icon"></i>
+---
+import Background from "./Background.astro";
+---
+
+<footer class="relative">
+  <div class="z-3 absolute w-full h-full top-0 left-0 glass"></div>
+  <Background
+    mouseInteraction={false}
+    class="w-full h-full absolute z-2 top-0 left-0"
+  />
+  <div class="relative z-5 footer-content">
+    <div class="logo text-[#252525]">
+      <i data-feather="sun" class="text-[#252525] logo-icon"></i>
       Lucerna
     </div>
     <p class="copyright">
@@ -21,7 +30,6 @@
 <style>
   footer {
     background-color: #1b1b1b;
-    color: #ffffff;
     padding: 3rem 1.5rem;
     text-align: center;
   }
@@ -49,7 +57,7 @@
   }
 
   .copyright {
-    color: #cccccc;
+    color: #252525;
     font-size: 0.9rem;
     margin-bottom: 1.5rem;
   }
@@ -58,21 +66,22 @@
     display: flex;
     gap: 1.5rem;
     margin-bottom: 2rem;
+    z-index: 200000;
   }
 
   .links a {
-    color: #ffffff;
+    color: #252525;
     text-decoration: none;
     font-size: 0.9rem;
-    transition: color 0.2s;
+    transition: text-decoration 0.2s;
   }
 
   .links a:hover {
-    color: #1e90ff;
+    text-decoration: underline;
   }
 
   .location {
-    color: #999999;
+    color: #252525;
     font-size: 0.85rem;
     display: flex;
     align-items: center;
@@ -81,5 +90,12 @@
 
   .location i {
     margin-right: 0.5rem;
+  }
+  .glass {
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(11.8px);
+    -webkit-backdrop-filter: blur(11.8px);
+    pointer-events: none;
   }
 </style>
