@@ -1,4 +1,8 @@
-<section id="about" class="py-20 px-6">
+---
+import Background from "./Background.astro";
+---
+
+<section id="about" class="py-20 px-6 bg-[#FCF9EA]">
   <div class="max-w-4xl mx-auto text-center">
     <h2 class="text-3xl md:text-4xl font-display font-bold mb-6">
       A Lantern from St. Gallen
@@ -10,16 +14,16 @@
     </p>
     <div class="w-full max-w-xs mx-auto relative">
       <div
-        class="aspect-square w-full bg-[#EAEAEA] rounded-full flex items-center justify-center"
+        class="aspect-square w-full rounded-full relative overflow-hidden flex items-center justify-center"
       >
         <div
-          class="w-3/4 h-3/4 rounded-full border-2 border-[#1e90ff] flex items-center justify-center"
+          class="w-3/4 h-3/4 rounded-full border-2 z-2 overflow-hidden relative border-[#2c2e37] flex items-center justify-center"
         >
-          <div class="w-1/2 h-1/2 rounded-full bg-[#1e90ff]"></div>
+          <div class="w-1/2 h-1/2 rounded-full bg-[#2c2e37] z-1"></div>
         </div>
       </div>
       <div
-        class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-[#1e90ff] text-[#1B1B1B] px-4 py-1 rounded-full text-sm font-medium"
+        class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-[#2c2e37] text-white px-4 py-1 rounded-full text-sm font-medium"
       >
         St. Gallen
       </div>
