@@ -1,9 +1,20 @@
-<section id="waitlist" class="py-20 px-6 bg-[#1B1B1B] text-white">
+---
+import LightRays from "./LightRays.astro";
+---
+
+<section id="waitlist" class="py-20 px-6 relative text-white">
+  <div class="absolute h-full w-full top-0 left-0">
+    <LightRays
+      raysColor="#ffffff"
+      raysOrigin="top-center"
+      raysSpeed={1.0}
+      mouseInfluence={0}
+      lightSpread={0.8}
+      class="absolute inset-0"
+    />
+    <div class="absolute bottom-0 left-0 w-full h-10 gradient"></div>
+  </div>
   <div class="max-w-3xl mx-auto text-center relative">
-    <div
-      class="absolute -top-20 left-1/2 transform -translate-x-1/2 w-64 h-64 rounded-full bg-[#1e90ff]/10 blur-xl"
-    >
-    </div>
     <h2 class="text-3xl md:text-4xl font-display font-bold mb-6 relative z-10">
       Be the first to see the light
     </h2>
@@ -16,22 +27,22 @@
         <input
           type="text"
           placeholder="Name"
-          class="bg-[#2D2D2D] border border-[#4D4D4D] rounded-full px-6 py-3 focus:outline-none focus:ring-2 focus:ring-[#1e90ff]"
+          class="bg-[#2D2D2D] border border-[#4D4D4D] rounded-full px-6 py-3 focus:outline-none focus:ring-2 focus:ring-[#FBF3D1]"
         />
         <input
           type="text"
           placeholder="Company"
-          class="bg-[#2D2D2D] border border-[#4D4D4D] rounded-full px-6 py-3 focus:outline-none focus:ring-2 focus:ring-[#1e90ff]"
+          class="bg-[#2D2D2D] border border-[#4D4D4D] rounded-full px-6 py-3 focus:outline-none focus:ring-2 focus:ring-[#FBF3D1]"
         />
         <input
           type="email"
           placeholder="Email"
-          class="bg-[#2D2D2D] border border-[#4D4D4D] rounded-full px-6 py-3 focus:outline-none focus:ring-2 focus:ring-[#1e90ff]"
+          class="bg-[#2D2D2D] border border-[#4D4D4D] rounded-full px-6 py-3 focus:outline-none focus:ring-2 focus:ring-[#FBF3D1]"
         />
       </div>
       <button
         type="submit"
-        class="bg-[#1e90ff] hover:bg-[#E6A000] text-[#1B1B1B] font-medium py-3 px-8 rounded-full transition duration-300 w-full"
+        class="bg-[#FCF9EA] hover:bg-[#FBF3D1] text-[#1B1B1B] font-medium py-3 px-8 rounded-full transition duration-300 w-full"
         >Join the Waitlist</button
       >
       <p class="mt-6 text-[#999999] text-sm">
@@ -40,3 +51,8 @@
     </form>
   </div>
 </section>
+
+<style>
+  .gradient {
+  }
+</style>
