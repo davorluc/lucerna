@@ -46,11 +46,11 @@ const {
 >
   <nav
     id="cardNav"
-    class="card-nav block h-auto md:h-[60px] p-0 rounded-xl shadow-md relative overflow-hidden will-change-[height]"
+    class="card-nav block h-auto md:h-[80px] p-0 rounded-xl shadow-md relative overflow-hidden will-change-[height]"
     style={`background-color:${baseColor}`}
   >
     <div
-      class="card-nav-top absolute inset-x-0 top-0 h-[60px] flex items-center justify-between p-2 pl-[1.1rem] z-[2]"
+      class="card-nav-top absolute inset-x-0 top-0 h-[80px] flex items-center justify-between p-2 pl-[1.1rem] z-[2]"
     >
       <!-- Hamburger -->
       <div
@@ -138,7 +138,7 @@ const {
     let isOpen = false;
 
     const tl = gsap.timeline({ paused: true });
-    gsap.set(nav, { height: 60, overflow: "hidden" });
+    gsap.set(nav, { height: 80, overflow: "hidden" });
 
     tl.to(nav, {
       height: () => {
@@ -197,9 +197,11 @@ const {
 <style>
   .hamburger-menu.open .hamburger-line:first-child {
     transform: translateY(4px) rotate(45deg);
+    transition: transform 0.1s ease-out;
   }
   .hamburger-menu.open .hamburger-line:last-child {
     transform: translateY(-4px) rotate(-45deg);
+    transition: transform 0.1s ease-out;
   }
 
   .nav-card {
