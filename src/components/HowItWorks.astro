@@ -1,5 +1,4 @@
 ---
-import CustomStepCard from "./custom-step-card.astro";
 import CardSwap from "./CardSwap.astro";
 ---
 
@@ -43,82 +42,84 @@ import CardSwap from "./CardSwap.astro";
         </ul>
       </div>
     </div>
-    <div class="w-full h-140 md:h-full static">
-      <CardSwap
-        pauseOnHover={true}
-        verticalDistance={70}
-        cardDistance={60}
-        height={600}
-        class="absolute w-full md:w-[50%] bottom-0 right-[-20px] md:right-0"
-      >
-        <!-- STEP 1 -->
-        <div
-          class="bg-[#2c2e37] flex-col border border-white text-white flex items-center justify-center text-xl rounded-xl"
+    <div class="w-full h-[600px] md:h-auto relative md:pl-4">
+      <div class="relative w-full h-full overflow-visible">
+        <CardSwap
+          pauseOnHover={true}
+          verticalDistance={70}
+          cardDistance={60}
+          height={600}
+          class="absolute inset-0 w-full md:w-[90%] md:left-[5%]"
         >
+          <!-- STEP 1 -->
           <div
-            class="h-[10%] flex flex-row justify-start w-full border-white border-b-2 p-6 items-center"
+            class="bg-[#2c2e37] flex-col border border-white text-white flex items-center justify-center text-xl rounded-xl"
           >
-            <p class="text-3xl font-semibold">1</p>
+            <div
+              class="h-[10%] flex flex-row justify-start w-full border-white border-b-2 p-6 items-center"
+            >
+              <p class="text-3xl font-semibold">1</p>
+            </div>
+            <div
+              class="h-[90%] flex items-center justify-center flex-col py-6 px-16 text-center"
+            >
+              <h3 class="text-3xl md:text-4xl mb-2">Find the Job</h3>
+              <p>Candidates discover your posting on familiar job boards</p>
+            </div>
           </div>
-          <div
-            class="h-[90%] flex items-center justify-center flex-col py-6 px-16 text-center"
-          >
-            <h3 class="text-3xl md:text-4xl mb-2">Find the Job</h3>
-            <p>Candidates discover your posting on familiar job boards</p>
-          </div>
-        </div>
 
-        <!-- STEP 2 -->
-        <div
-          class="bg-[#2c2e37] flex-col border border-white text-white flex items-center justify-center text-xl rounded-xl"
-        >
+          <!-- STEP 2 -->
           <div
-            class="h-[10%] flex flex-row justify-start w-full border-white border-b-2 p-6 items-center"
+            class="bg-[#2c2e37] flex-col border border-white text-white flex items-center justify-center text-xl rounded-xl"
           >
-            <p class="text-3xl font-semibold">2</p>
+            <div
+              class="h-[10%] flex flex-row justify-start w-full border-white border-b-2 p-6 items-center"
+            >
+              <p class="text-3xl font-semibold">2</p>
+            </div>
+            <div
+              class="h-[90%] flex items-center justify-center flex-col py-6 px-16 text-center"
+            >
+              <h3 class="text-3xl md:text-4xl mb-2">Apply & Upload</h3>
+              <p>Basic info, CV, and diplomas are submitted</p>
+            </div>
           </div>
-          <div
-            class="h-[90%] flex items-center justify-center flex-col py-6 px-16 text-center"
-          >
-            <h3 class="text-3xl md:text-4xl mb-2">Apply & Upload</h3>
-            <p>Basic info, CV, and diplomas are submitted</p>
-          </div>
-        </div>
 
-        <!-- STEP 3 -->
-        <div
-          class="bg-[#2c2e37] flex-col border border-white text-white flex items-center justify-center text-xl rounded-xl"
-        >
+          <!-- STEP 3 -->
           <div
-            class="h-[10%] flex flex-row justify-start w-full border-white border-b-2 p-6 items-center"
+            class="bg-[#2c2e37] flex-col border border-white text-white flex items-center justify-center text-xl rounded-xl"
           >
-            <p class="text-3xl font-semibold">3</p>
+            <div
+              class="h-[10%] flex flex-row justify-start w-full border-white border-b-2 p-6 items-center"
+            >
+              <p class="text-3xl font-semibold">3</p>
+            </div>
+            <div
+              class="h-[90%] flex items-center justify-center flex-col py-6 px-16 text-center"
+            >
+              <h3 class="text-3xl md:text-4xl mb-2">AI Interview</h3>
+              <p>Smart chat asks meaningful, role-specific questions</p>
+            </div>
           </div>
-          <div
-            class="h-[90%] flex items-center justify-center flex-col py-6 px-16 text-center"
-          >
-            <h3 class="text-3xl md:text-4xl mb-2">AI Interview</h3>
-            <p>Smart chat asks meaningful, role-specific questions</p>
-          </div>
-        </div>
 
-        <!-- STEP 4 -->
-        <div
-          class="bg-[#2c2e37] flex-col border border-white text-white flex items-center justify-center text-xl rounded-xl"
-        >
+          <!-- STEP 4 -->
           <div
-            class="h-[10%] flex flex-row justify-start w-full border-white border-b-2 p-6 items-center"
+            class="bg-[#2c2e37] flex-col border border-white text-white flex items-center justify-center text-xl rounded-xl"
           >
-            <p class="text-3xl font-semibold">4</p>
+            <div
+              class="h-[10%] flex flex-row justify-start w-full border-white border-b-2 p-6 items-center"
+            >
+              <p class="text-3xl font-semibold">4</p>
+            </div>
+            <div
+              class="h-[90%] flex items-center justify-center flex-col py-6 px-16 text-center"
+            >
+              <h3 class="text-3xl md:text-4xl mb-2">Evaluation</h3>
+              <p>Recruiter dashboard shows strengths & weaknesses</p>
+            </div>
           </div>
-          <div
-            class="h-[90%] flex items-center justify-center flex-col py-6 px-16 text-center"
-          >
-            <h3 class="text-3xl md:text-4xl mb-2">Evaluation</h3>
-            <p>Recruiter dashboard shows strengths & weaknesses</p>
-          </div>
-        </div>
-      </CardSwap>
+        </CardSwap>
+      </div>
     </div>
   </div>
 </section>
