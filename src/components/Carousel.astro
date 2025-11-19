@@ -1,0 +1,320 @@
+---
+interface Props {
+  items: Array<{
+    title: string;
+    description: string;
+    icon: string;
+  }>;
+  baseWidth?: number;
+  autoplay?: boolean;
+  pauseOnHover?: boolean;
+  loop?: boolean;
+  round?: boolean;
+  class?: string;
+}
+
+const {
+  items,
+  baseWidth = 400,
+  autoplay = true,
+  pauseOnHover = true,
+  loop = false,
+  round = false,
+  class: className = "",
+} = Astro.props;
+---
+
+<div
+  class={`carousel-container relative w-full h-full ${className}`}
+  data-autoplay={autoplay}
+  data-pause-on-hover={pauseOnHover}
+  data-loop={loop}
+>
+  <!-- Carousel Track -->
+  <div class="carousel-track relative w-full h-full overflow-hidden">
+    <div
+      class="carousel-slides flex gap-6 transition-transform duration-500 ease-out h-full"
+      style={`width: ${items.length * baseWidth}px`}
+    >
+      {
+        items.map((item, index) => (
+          <div
+            class={`bg-[#2c2e37] p-8 h-full w-full flex flex-col justify-start gap-4 ${round ? "rounded-2xl" : "rounded-xl"} shadow-md hover:shadow-lg transition-shadow duration-300`}
+          >
+            <div class="text-6xl mb-4 text-[#fbf3d1]">{item.icon}</div>
+
+            <h3 class="text-xl font-semibold text-[#eaeaea]">{item.title}</h3>
+
+            <p class="text-[#bfbfbf] text-base leading-relaxed">
+              {item.description}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <!-- Navigation Buttons -->
+  <button
+    class="carousel-prev absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 z-10 bg-white hover:bg-[#F5F5F5] rounded-full p-2 shadow-sm transition-colors"
+    aria-label="Previous slide"
+  >
+    <svg
+      class="w-5 h-5 text-[#2c2e37]"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M15 19l-7-7 7-7"></path>
+    </svg>
+  </button>
+
+  <button
+    class="carousel-next absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 z-10 bg-white hover:bg-[#F5F5F5] rounded-full p-2 shadow-sm transition-colors"
+    aria-label="Next slide"
+  >
+    <svg
+      class="w-5 h-5 text-[#2c2e37]"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M9 5l7 7-7 7"></path>
+    </svg>
+  </button>
+
+  <!-- Indicators -->
+  <div
+    class="carousel-indicators absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10"
+  >
+    {
+      items.map((_, index) => (
+        <button
+          class="indicator w-2 h-2 rounded-full bg-[#D1D5DB] hover:bg-[#9CA3AF] transition-colors"
+          data-index={index}
+          aria-label={`Go to slide ${index + 1}`}
+        />
+      ))
+    }
+  </div>
+</div>
+
+<script
+  define:vars={{
+    baseWidth,
+    loop,
+    autoplay,
+    pauseOnHover,
+    itemCount: items.length,
+  }}
+>
+  class Carousel {
+    constructor(container) {
+      this.container = container;
+      this.track = container.querySelector(".carousel-slides");
+      this.slides = container.querySelectorAll(".carousel-slide");
+      this.prevBtn = container.querySelector(".carousel-prev");
+      this.nextBtn = container.querySelector(".carousel-next");
+      this.indicators = container.querySelectorAll(".indicator");
+
+      this.currentIndex = 0;
+      this.autoplayInterval = null;
+      this.isTransitioning = false;
+
+      this.init();
+    }
+
+    init() {
+      this.prevBtn.addEventListener("click", () => this.prev());
+      this.nextBtn.addEventListener("click", () => this.next());
+      this.indicators.forEach((indicator, index) => {
+        indicator.addEventListener("click", () => this.goToSlide(index));
+      });
+
+      // Touch/Swipe support
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      this.track.addEventListener(
+        "touchstart",
+        (e) => {
+          touchStartX = e.changedTouches[0].screenX;
+        },
+        false
+      );
+
+      this.track.addEventListener(
+        "touchend",
+        (e) => {
+          touchEndX = e.changedTouches[0].screenX;
+          this.handleSwipe(touchStartX, touchEndX);
+        },
+        false
+      );
+
+      // Mouse drag support
+      let isDragging = false;
+      let dragStartX = 0;
+
+      this.track.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        dragStartX = e.clientX;
+      });
+
+      this.track.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
+        this.track.style.cursor = "grabbing";
+      });
+
+      this.track.addEventListener("mouseup", (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        this.track.style.cursor = "grab";
+        const dragEndX = e.clientX;
+        this.handleSwipe(dragStartX, dragEndX);
+      });
+
+      this.track.addEventListener("mouseleave", () => {
+        isDragging = false;
+        this.track.style.cursor = "grab";
+      });
+
+      if (pauseOnHover === "true") {
+        this.container.addEventListener("mouseenter", () =>
+          this.pauseAutoplay()
+        );
+        this.container.addEventListener("mouseleave", () =>
+          this.startAutoplay()
+        );
+      }
+
+      if (autoplay === "true") {
+        this.startAutoplay();
+      }
+
+      this.updateUI();
+    }
+
+    handleSwipe(startX, endX) {
+      const swipeThreshold = 50;
+      const diff = startX - endX;
+
+      if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0) {
+          this.next();
+        } else {
+          this.prev();
+        }
+      }
+    }
+
+    goToSlide(index) {
+      if (this.isTransitioning) return;
+
+      this.currentIndex = index;
+      this.isTransitioning = true;
+
+      const offset = -this.currentIndex * baseWidth;
+      this.track.style.transform = `translateX(${offset}px)`;
+
+      setTimeout(() => {
+        this.isTransitioning = false;
+      }, 500);
+
+      this.updateUI();
+      this.resetAutoplay();
+    }
+
+    next() {
+      if (this.isTransitioning) return;
+
+      if (this.currentIndex < itemCount - 1) {
+        this.goToSlide(this.currentIndex + 1);
+      } else if (loop === "true") {
+        this.goToSlide(0);
+      }
+    }
+
+    prev() {
+      if (this.isTransitioning) return;
+
+      if (this.currentIndex > 0) {
+        this.goToSlide(this.currentIndex - 1);
+      } else if (loop === "true") {
+        this.goToSlide(itemCount - 1);
+      }
+    }
+
+    updateUI() {
+      this.indicators.forEach((indicator, index) => {
+        if (index === this.currentIndex) {
+          indicator.classList.remove("bg-[#D1D5DB]", "hover:bg-[#9CA3AF]");
+          indicator.classList.add("bg-[#2c2e37]");
+        } else {
+          indicator.classList.remove("bg-[#2c2e37]");
+          indicator.classList.add("bg-[#D1D5DB]", "hover:bg-[#9CA3AF]");
+        }
+      });
+
+      this.prevBtn.disabled = !loop && this.currentIndex === 0;
+      this.nextBtn.disabled = !loop && this.currentIndex === itemCount - 1;
+
+      if (this.prevBtn.disabled) {
+        this.prevBtn.classList.add("opacity-50", "cursor-not-allowed");
+      } else {
+        this.prevBtn.classList.remove("opacity-50", "cursor-not-allowed");
+      }
+
+      if (this.nextBtn.disabled) {
+        this.nextBtn.classList.add("opacity-50", "cursor-not-allowed");
+      } else {
+        this.nextBtn.classList.remove("opacity-50", "cursor-not-allowed");
+      }
+    }
+
+    startAutoplay() {
+      if (this.autoplayInterval) return;
+      this.autoplayInterval = setInterval(() => {
+        this.next();
+      }, 4000);
+    }
+
+    pauseAutoplay() {
+      if (this.autoplayInterval) {
+        clearInterval(this.autoplayInterval);
+        this.autoplayInterval = null;
+      }
+    }
+
+    resetAutoplay() {
+      this.pauseAutoplay();
+      if (autoplay === "true") {
+        this.startAutoplay();
+      }
+    }
+  }
+
+  document.querySelectorAll(".carousel-container").forEach((container) => {
+    new Carousel(container);
+  });
+</script>
+
+<style>
+  .carousel-track {
+    will-change: transform;
+    user-select: none;
+    cursor: grab;
+  }
+
+  .carousel-track:active {
+    cursor: grabbing;
+  }
+</style>
