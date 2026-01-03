@@ -1,35 +1,62 @@
 ---
 import Background from "./Background.astro";
+import logo from "../assets/png/lucerna_logo.png";
+import { Image } from "astro:assets";
 ---
 
 <footer class="relative">
-  <div class="z-3 absolute w-full h-full top-0 left-0 glass"></div>
-  <Background
-    mouseInteraction={false}
-    class="w-full h-full absolute z-2 top-0 left-0"
-  />
-  <div class="relative z-5 footer-content">
-    <div class="logo text-[#252525]">
-      <i data-feather="sun" class="text-[#252525] logo-icon"></i>
-      Lucerna
+  <div class="relative z-5 flex flex-row footer-content">
+    <div class="flex flex-col">
+      <div class="logo text-[#FCF9EA]">
+        <Image src={logo} alt="Lucerna Logo" class="logo h-22 w-auto" />
+      </div>
+      <p class="copyright">
+        © Lucerna AG, St. Gallen — Illuminating Hiring Decisions.
+      </p>
+      <div class="links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+      </div>
     </div>
-    <p class="copyright">
-      © Lucerna AG, St. Gallen — Illuminating Hiring Decisions.
-    </p>
-    <div class="links">
-      <a href="#">Privacy Policy</a>
-      <a href="#">Terms of Use</a>
-    </div>
-    <div class="location">
-      <i data-feather="map-pin"></i>
-      St. Gallen, Switzerland
-    </div>
+    <form
+      class="max-w-md mx-auto relative z-10"
+      action="https://formspree.io/f/mgovnovw"
+      method="POST"
+    >
+      <div class="grid gap-4 mb-6">
+        <input
+          type="text"
+          name="name"
+          placeholder="Name"
+          class="bg-[#2D2D2D] border text-[#FCF9EA] border-[#4D4D4D] rounded-full px-6 py-3 focus:outline-none focus:ring-2 focus:ring-[#FBF3D1]"
+        />
+        <input
+          type="text"
+          name="company"
+          placeholder="Company"
+          class="bg-[#2D2D2D] border text-[#FCF9EA] border-[#4D4D4D] rounded-full px-6 py-3 focus:outline-none focus:ring-2 focus:ring-[#FBF3D1]"
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          class="bg-[#2D2D2D] border text-[#FCF9EA] border-[#4D4D4D] rounded-full px-6 py-3 focus:outline-none focus:ring-2 focus:ring-[#FBF3D1]"
+        />
+      </div>
+      <button
+        type="submit"
+        class="bg-[#FCF9EA] hover:bg-[#FBF3D1] text-[#1B1B1B] font-medium py-3 px-8 rounded-full transition duration-300 w-full"
+        >Join the Waitlist</button
+      >
+      <p class="mt-6 text-[#999999] text-sm">
+        We'll only reach out when we're ready to launch.
+      </p>
+    </form>
   </div>
 </footer>
 
 <style>
   footer {
-    background-color: #1b1b1b;
     padding: 3rem 1.5rem;
     text-align: center;
   }
@@ -37,8 +64,6 @@ import Background from "./Background.astro";
   .footer-content {
     max-width: 1200px;
     margin: 0 auto;
-    display: flex;
-    flex-direction: column;
     align-items: center;
   }
 
@@ -52,12 +77,11 @@ import Background from "./Background.astro";
   }
 
   .logo-icon {
-    color: #1e90ff;
     margin-right: 0.5rem;
   }
 
   .copyright {
-    color: #252525;
+    color: #fcf9ea;
     font-size: 0.9rem;
     margin-bottom: 1.5rem;
   }
@@ -70,7 +94,7 @@ import Background from "./Background.astro";
   }
 
   .links a {
-    color: #252525;
+    color: #fcf9ea;
     text-decoration: none;
     font-size: 0.9rem;
     transition: text-decoration 0.2s;
@@ -81,16 +105,10 @@ import Background from "./Background.astro";
   }
 
   .location {
-    color: #252525;
+    color: #fcf9ea;
     font-size: 0.85rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 
-  .location i {
-    margin-right: 0.5rem;
-  }
   .glass {
     /* From https://css.glass */
     background: rgba(255, 255, 255, 0.06);

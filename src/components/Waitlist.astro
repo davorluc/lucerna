@@ -1,17 +1,9 @@
 ---
-import LightRays from "./LightRays.astro";
+
 ---
 
 <section id="waitlist" class="py-20 px-6 relative text-white">
   <div class="absolute h-full w-full top-0 left-0">
-    <LightRays
-      raysColor="#ffffff"
-      raysOrigin="top-center"
-      raysSpeed={1.0}
-      mouseInfluence={0}
-      lightSpread={0.8}
-      class="absolute inset-0"
-    />
     <div class="absolute bottom-0 left-0 w-full h-10 gradient"></div>
   </div>
   <div class="max-w-3xl mx-auto text-center relative">
@@ -22,20 +14,27 @@ import LightRays from "./LightRays.astro";
       Join the Lucerna waitlist to stay informed as we bring clarity to hiring.
     </p>
 
-    <form class="max-w-md mx-auto relative z-10">
+    <form
+      class="max-w-md mx-auto relative z-10"
+      action="https://formspree.io/f/mgovnovw"
+      method="POST"
+    >
       <div class="grid gap-4 mb-6">
         <input
           type="text"
+          name="name"
           placeholder="Name"
           class="bg-[#2D2D2D] border border-[#4D4D4D] rounded-full px-6 py-3 focus:outline-none focus:ring-2 focus:ring-[#FBF3D1]"
         />
         <input
           type="text"
+          name="company"
           placeholder="Company"
           class="bg-[#2D2D2D] border border-[#4D4D4D] rounded-full px-6 py-3 focus:outline-none focus:ring-2 focus:ring-[#FBF3D1]"
         />
         <input
           type="email"
+          name="email"
           placeholder="Email"
           class="bg-[#2D2D2D] border border-[#4D4D4D] rounded-full px-6 py-3 focus:outline-none focus:ring-2 focus:ring-[#FBF3D1]"
         />
@@ -51,8 +50,3 @@ import LightRays from "./LightRays.astro";
     </form>
   </div>
 </section>
-
-<style>
-  .gradient {
-  }
-</style>
